@@ -2,6 +2,8 @@ package com.MyRH.Models.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.awt.*;
+
 @Entity
 @Data
 @Builder
@@ -27,4 +29,8 @@ public class Company {
 
     @Column(name = "phone")
     private String phone;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "Image_id", referencedColumnName = "id")
+    private Files image;
 }

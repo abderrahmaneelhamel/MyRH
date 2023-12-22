@@ -6,7 +6,8 @@ import com.MyRH.Services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,8 +35,14 @@ public class CompanyController {
     }
 
     @PostMapping
-    public ResponseEntity<Company> addCompany(@RequestBody CompanyDto Company) {
-        Company newCompany = companyService.createCompany(Company);
+    public ResponseEntity<Company> addCompany(@RequestBody CompanyDto company) throws IOException {
+        System.out.println(company);
+        Company newCompany = companyService.createCompany(company);
+        return ResponseEntity.ok(newCompany);
+    }
+    @PostMapping("/addImage/{id}")
+    public ResponseEntity<Company> addImage(@PathVariable("id") Long id,@RequestParam("image") MultipartFile image) throws IOException {
+        Company newCompany = companyService.addImageCompany(image,id);
         return ResponseEntity.ok(newCompany);
     }
 

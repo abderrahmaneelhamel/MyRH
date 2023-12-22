@@ -3,6 +3,7 @@ package com.MyRH.Models.DTOs;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Value;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
@@ -16,4 +17,5 @@ public class CompanyDto implements Serializable {
     String password;
     String address;
     String phone;
+//    MultipartFile image;
 }
