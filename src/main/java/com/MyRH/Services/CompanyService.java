@@ -5,6 +5,7 @@ import com.MyRH.Models.Entities.Company;
 import com.MyRH.Models.Entities.Files;
 import com.MyRH.Models.Mappers.CompanyMapper;
 import com.MyRH.Repositories.CompanyRepository;
+import com.MyRH.Repositories.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import at.favre.lib.crypto.bcrypt.BCrypt;
@@ -18,27 +19,24 @@ public class CompanyService {
     CompanyRepository companyRepository;
     CompanyMapper companyMapper;
 
+    FileRepository  fileRepository;
+
     FileService fileService;
 
     @Autowired
-    public CompanyService(CompanyRepository companyRepository,CompanyMapper  companyMapper,FileService fileService) {
+    public CompanyService(CompanyRepository companyRepository,CompanyMapper  companyMapper,FileService fileService,FileRepository  fileRepository) {
         this.companyRepository = companyRepository;
         this.companyMapper = companyMapper;
         this.fileService = fileService;
+        this.fileRepository = fileRepository;
     }
 
     public Company createCompany(CompanyDto companyDto) throws IOException {
         Company company = companyMapper.toEntity(companyDto);
-        String HashedPassword = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToString(12, company.getPassword().toCharArray());
-//        Files image = fileService.storeFile(companyDto.getImage());
-        company.setPassword(HashedPassword);
-//        company.setImage(image);
-        return companyRepository.save(company);
-    }
-    public Company addImageCompany(MultipartFile uploadedImage,Long id) throws IOException {
-        Company company = companyRepository.findById(id).orElse(null);
-        Files image = fileService.storeFile(uploadedImage);
+        Files image = fileService.storeDataIntoFileSystem(companyDto.getImage());
         company.setImage(image);
+        String HashedPassword = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToString(12, company.getPassword().toCharArray());
+        company.setPassword(HashedPassword);
         return companyRepository.save(company);
     }
 

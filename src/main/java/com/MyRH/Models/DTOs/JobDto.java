@@ -17,5 +17,5 @@ public class JobDto implements Serializable {
     String profile;
     String city;
     Status status;
-    int CompanyId;
+    Long CompanyId;
 }

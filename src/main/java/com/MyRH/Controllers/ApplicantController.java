@@ -1,7 +1,9 @@
 package com.MyRH.Controllers;
 
 import com.MyRH.Models.DTOs.ApplicantDto;
+import com.MyRH.Models.DTOs.ApplicationDto;
 import com.MyRH.Models.Entities.Applicant;
+import com.MyRH.Models.Entities.Application;
 import com.MyRH.Services.ApplicantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +37,11 @@ public class ApplicantController {
     public ResponseEntity<Applicant> addApplicant(@RequestBody ApplicantDto Applicant) {
         Applicant newApplicant = applicantService.createApplicant(Applicant);
         return ResponseEntity.ok(newApplicant);
+    }
+
+    @PostMapping("/apply")
+    public ResponseEntity<Application> applyToJob(@RequestBody ApplicationDto application) {
+        Application newApplication = applicantService.applyToJob(application);
+        return ResponseEntity.ok(newApplication);
     }
 }

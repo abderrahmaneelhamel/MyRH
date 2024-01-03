@@ -15,14 +15,14 @@ public class FileService {
     @Autowired
     private FileRepository fileRepository;
 
-    private final String FILE_PATH = "E:\\projects\\images\\storage\\";
+    private final String FILE_PATH = "c:\\projects\\storage\\";
 
-    public Files storeFile(MultipartFile updatedFile) throws IOException {
+    public Files storeFile(MultipartFile uploadedFile) throws IOException {
         Files file = Files
                 .builder()
-                .name(updatedFile.getOriginalFilename())
-                .type(updatedFile.getContentType())
-                .Data(updatedFile.getBytes())
+                .name(uploadedFile.getOriginalFilename())
+                .type(uploadedFile.getContentType())
+                .Data(uploadedFile.getBytes())
                 .build();
 
         file = fileRepository.save(file);

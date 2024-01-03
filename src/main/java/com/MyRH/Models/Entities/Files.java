@@ -1,5 +1,6 @@
 package com.MyRH.Models.Entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class Files {
 
     private String path;
 
+    @Nullable
     @Lob
     private byte[] Data;
 }

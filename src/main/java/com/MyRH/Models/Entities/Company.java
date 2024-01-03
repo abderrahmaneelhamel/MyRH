@@ -30,7 +30,8 @@ public class Company {
     @Column(name = "phone")
     private String phone;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "Image_id", referencedColumnName = "id")
     private Files image;
+
 }

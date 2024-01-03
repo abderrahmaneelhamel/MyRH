@@ -3,23 +3,28 @@ package com.MyRH.Controllers;
 import com.MyRH.Models.DTOs.CompanyDto;
 import com.MyRH.Models.Entities.Company;
 import com.MyRH.Services.CompanyService;
+import com.MyRH.Services.FileService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/company")
+@CrossOrigin(origins = "**", allowedHeaders = "*")
 public class CompanyController {
 
     CompanyService  companyService;
+    FileService  fileService;
 
     @Autowired
-    public CompanyController(CompanyService companyService) {
+    public CompanyController(CompanyService companyService,FileService  fileService) {
         this.companyService = companyService;
+        this.fileService = fileService;
     }
 
     @GetMapping
@@ -34,15 +39,9 @@ public class CompanyController {
         return ResponseEntity.ok(company);
     }
 
-    @PostMapping
-    public ResponseEntity<Company> addCompany(@RequestBody CompanyDto company) throws IOException {
-        System.out.println(company);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Company> addCompany(@Valid @ModelAttribute CompanyDto company) throws IOException {
         Company newCompany = companyService.createCompany(company);
-        return ResponseEntity.ok(newCompany);
-    }
-    @PostMapping("/addImage/{id}")
-    public ResponseEntity<Company> addImage(@PathVariable("id") Long id,@RequestParam("image") MultipartFile image) throws IOException {
-        Company newCompany = companyService.addImageCompany(image,id);
         return ResponseEntity.ok(newCompany);
     }
 
