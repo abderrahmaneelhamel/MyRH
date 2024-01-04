@@ -1,9 +1,11 @@
 package com.MyRH.Services;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.MyRH.Models.DTOs.ApplicantDto;
 import com.MyRH.Models.DTOs.ApplicationDto;
 import com.MyRH.Models.Entities.Applicant;
 import com.MyRH.Models.Entities.Application;
+import com.MyRH.Models.Entities.Company;
 import com.MyRH.Models.Entities.Job;
 import com.MyRH.Models.Mappers.ApplicantMapper;
 import com.MyRH.Models.Mappers.ApplicationMapper;
@@ -34,7 +36,22 @@ public class ApplicantService {
 
     public Applicant createApplicant(ApplicantDto applicantDto) {
         Applicant applicant = applicantMapper.toEntity(applicantDto);
+        applicant.setFirstName(applicantDto.getFirstName());
+        applicant.setPassword(applicantDto.getPassword());
+        String HashedPassword = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToString(12, applicant.getPassword().toCharArray());
+        applicant.setPassword(HashedPassword);
         return applicantRepository.save(applicant);
+    }
+
+    public Applicant AuthenticateApplicant(String email, String password){
+        Applicant applicant = applicantRepository.findByEmail(email);
+        if (applicant != null) {
+            BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), applicant.getPassword());
+            if (result.verified) {
+                return applicant;
+            }
+        }
+        return null;
     }
 
     public List<Applicant> getAllApplicants(){

@@ -22,6 +22,7 @@ public class JobService {
 
     public Job createJob(JobDto jobDto) {
         Job job = jobMapper.toEntity(jobDto);
+        System.out.println(job+"--"+jobDto);
         return jobRepository.save(job);
     }
 

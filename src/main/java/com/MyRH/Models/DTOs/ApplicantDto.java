@@ -12,6 +12,7 @@ public class ApplicantDto implements Serializable {
     String firstName;
     String lastName;
     String email;
+    String password;
     String level;
     String profile;
     String city;

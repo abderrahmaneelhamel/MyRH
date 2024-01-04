@@ -4,6 +4,7 @@ import com.MyRH.Models.DTOs.AdminDto;
 import com.MyRH.Models.Entities.Admin;
 import com.MyRH.Services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/admin")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AdminController {
 
     AdminService  adminService;
@@ -41,7 +43,11 @@ public class AdminController {
 
     @PostMapping("/authinticate")
     public ResponseEntity authinticateAdmin(@RequestBody AdminDto admin) {
-        Admin authinticatedAdmin = adminService.AuthenticateAdmin(admin);
-        return ResponseEntity.ok(Objects.requireNonNullElse(authinticatedAdmin, "Please enter correct email and password"));
+        Admin authenticatedAdmin = adminService.AuthenticateAdmin(admin);
+        if (authenticatedAdmin != null) {
+            return ResponseEntity.ok(authenticatedAdmin);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
     }
 }

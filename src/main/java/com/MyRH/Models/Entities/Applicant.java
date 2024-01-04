@@ -23,6 +23,9 @@ public class Applicant {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "level")
     private String level;
 

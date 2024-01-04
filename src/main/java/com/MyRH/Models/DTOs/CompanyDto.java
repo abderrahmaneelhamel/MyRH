@@ -1,5 +1,6 @@
 package com.MyRH.Models.DTOs;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +27,6 @@ public class CompanyDto implements Serializable {
 
     @NotBlank(message = "Password is mandatory")
     @Size(min = 8, message = "Password must be between 8 and 50 characters")
-
     private String password;
 
     String address;
@@ -36,5 +36,6 @@ public class CompanyDto implements Serializable {
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone should be valid")
     private String phone;
 
+    @Nullable
     private MultipartFile image;
 }

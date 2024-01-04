@@ -6,11 +6,13 @@ import com.MyRH.Services.CompanyService;
 import com.MyRH.Services.FileService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -46,8 +48,14 @@ public class CompanyController {
     }
 
     @PostMapping("/authinticate")
-    public ResponseEntity authinticateCompany(@RequestBody CompanyDto Company) {
-        Company authinticatedCompany = companyService.AuthenticateCompany(Company);
-        return ResponseEntity.ok(Objects.requireNonNullElse(authinticatedCompany, "Please enter correct email and password"));
+    public ResponseEntity authinticateCompany(@RequestBody Map<String, String> credentials) {
+        String email = credentials.get("email");
+        String password = credentials.get("password");
+        Company authinticatedCompany = companyService.AuthenticateCompany(email,password);
+        if (authinticatedCompany != null) {
+            return ResponseEntity.ok(authinticatedCompany);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
     }
 }

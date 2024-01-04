@@ -30,8 +30,16 @@ public class Company {
     @Column(name = "phone")
     private String phone;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Image_id", referencedColumnName = "id")
     private Files image;
 
+    public Company(Long id, String name, String email, String password, String address, String phone) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.phone = phone;
+    }
 }

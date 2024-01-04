@@ -40,10 +40,11 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public Company AuthenticateCompany(CompanyDto companyDto) {
-        Company company = companyRepository.findByEmail(companyDto.getEmail());
+    public Company AuthenticateCompany(String email,String password){
+        Company company = companyRepository.findCompanyWithoutImage(email).orElse(null);
+        System.out.println(company);
         if (company != null) {
-            BCrypt.Result result = BCrypt.verifyer().verify(companyDto.getPassword().toCharArray(), company.getPassword());
+            BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), company.getPassword());
             if (result.verified) {
                 return company;
             }
