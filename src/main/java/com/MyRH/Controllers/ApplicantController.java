@@ -64,4 +64,11 @@ public class ApplicantController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
     }
+
+    @GetMapping("/applications/{id}")
+    public ResponseEntity<List<Application>> getApplicationById(@PathVariable("id") Long id) {
+        List<Application> applications = applicantService.getApplicationsById(id);
+        System.out.println(applications);
+        return ResponseEntity.ok(applications);
+    }
 }

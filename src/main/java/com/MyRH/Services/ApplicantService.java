@@ -8,6 +8,7 @@ import com.MyRH.Models.Mappers.ApplicantMapper;
 import com.MyRH.Models.Mappers.ApplicationMapper;
 import com.MyRH.Repositories.ApplicantRepository;
 import com.MyRH.Repositories.ApplicationRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,11 @@ public class ApplicantService {
         application.setJob(jobService.getJobById(applicationDto.getJob_id()));
         application.setStatus(applicationDto.getStatus());
         return applicationRepository.save(application);
+    }
+
+    @Transactional
+    public List<Application> getApplicationsById(Long id){
+        return applicationRepository.findByApplicantId(id).orElse(null);
     }
 
 
