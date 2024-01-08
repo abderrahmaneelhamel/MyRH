@@ -34,6 +34,19 @@ public class Company {
     @JoinColumn(name = "Image_id", referencedColumnName = "id")
     private Files image;
 
+    @ManyToOne
+    @JoinColumn(name = "plan_id", referencedColumnName = "id")
+    private Plan plan;
+
+    public Company(Long id, String name, String email, String password, String address, String phone,Plan plan) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.phone = phone;
+        this.plan = plan;
+    }
     public Company(Long id, String name, String email, String password, String address, String phone) {
         this.id = id;
         this.name = name;

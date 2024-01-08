@@ -1,5 +1,6 @@
 package com.MyRH.Models.DTOs;
 
+import com.MyRH.Models.Enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,5 @@ public class ApplicationDto {
     String message;
     Long job_id;
     Long applicant_id;
+    Status status;
 }

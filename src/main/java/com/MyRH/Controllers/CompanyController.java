@@ -58,4 +58,15 @@ public class CompanyController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
     }
+    @PostMapping("/update-plan")
+    public ResponseEntity updatePlan(@RequestBody Map<String, String> credentials) {
+        Long companyId = Long.valueOf(credentials.get("companyId"));
+        Long planId = Long.valueOf(credentials.get("planId"));
+        Company updatedCompany = companyService.updatePlan(companyId,planId);
+        if (updatedCompany != null) {
+            return ResponseEntity.ok(updatedCompany);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
+    }
 }

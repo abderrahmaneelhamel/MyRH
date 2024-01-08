@@ -34,4 +34,19 @@ public class Applicant {
 
     @Column(name = "city")
     private String city;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cv_id", referencedColumnName = "id")
+    private Files cv;
+
+    public Applicant(Long id, String firstName, String lastName, String email, String password, String level, String profile, String city) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.level = level;
+        this.profile = profile;
+        this.city = city;
+    }
 }

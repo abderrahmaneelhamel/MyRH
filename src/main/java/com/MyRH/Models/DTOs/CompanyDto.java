@@ -36,6 +36,5 @@ public class CompanyDto implements Serializable {
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone should be valid")
     private String phone;
 
-    @Nullable
     private MultipartFile image;
 }

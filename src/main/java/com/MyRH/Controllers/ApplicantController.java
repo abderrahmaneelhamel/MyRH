@@ -6,10 +6,14 @@ import com.MyRH.Models.Entities.Applicant;
 import com.MyRH.Models.Entities.Application;
 import com.MyRH.Models.Entities.Company;
 import com.MyRH.Services.ApplicantService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +41,8 @@ public class ApplicantController {
         return ResponseEntity.ok(applicant);
     }
 
-    @PostMapping
-    public ResponseEntity<Applicant> addApplicant(@RequestBody ApplicantDto Applicant) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Applicant> addApplicant(@ModelAttribute ApplicantDto Applicant) throws IOException {
         Applicant newApplicant = applicantService.createApplicant(Applicant);
         return ResponseEntity.ok(newApplicant);
     }

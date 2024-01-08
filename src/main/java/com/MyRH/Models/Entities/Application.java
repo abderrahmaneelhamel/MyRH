@@ -1,4 +1,5 @@
 package com.MyRH.Models.Entities;
+import com.MyRH.Models.Enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,4 +27,6 @@ public class Application {
     @ManyToOne(optional = false)
     @JoinColumn(name = "applicant_id", referencedColumnName = "id")
     private Applicant applicant;
+
+    private Status status;
 }

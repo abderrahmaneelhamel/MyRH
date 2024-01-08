@@ -2,6 +2,7 @@ package com.MyRH.Models.DTOs;
 
 import lombok.Data;
 import lombok.Value;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
@@ -16,4 +17,5 @@ public class ApplicantDto implements Serializable {
     String level;
     String profile;
     String city;
+    MultipartFile cv;
 }
