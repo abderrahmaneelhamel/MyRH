@@ -50,4 +50,9 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
     }
+    @GetMapping("logout/{id}")
+    public ResponseEntity logout(@PathVariable("id") Long id) {
+        adminService.logout(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Logout successful");
+    }
 }

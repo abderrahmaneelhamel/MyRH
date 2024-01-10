@@ -2,6 +2,7 @@ package com.MyRH.Services;
 
 import com.MyRH.Models.DTOs.AdminDto;
 import com.MyRH.Models.Entities.Admin;
+import com.MyRH.Models.Enums.State;
 import com.MyRH.Models.Mappers.AdminMapper;
 import com.MyRH.Repositories.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +36,18 @@ public class AdminService {
         if (admin != null) {
             BCrypt.Result result = BCrypt.verifyer().verify(adminDto.getPassword().toCharArray(), admin.getPassword());
             if (result.verified) {
-                return admin;
+                admin.setState(State.ONLINE);
+                return adminRepository.save(admin);
             }
         }
         return null;
     }
-
+    public void logout(Long id) {
+        Admin admin = adminRepository.findById(id).orElse(null);
+        assert admin != null;
+        admin.setState(State.OFFLINE);
+        adminRepository.save(admin);
+    }
     public List<Admin> getAllAdmins(){
         return adminRepository.findAll();
     }

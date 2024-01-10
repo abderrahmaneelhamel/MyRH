@@ -71,4 +71,14 @@ public class JobService {
             return null;
         }
     }
+    public List<Job> updateJob(Long id, Status status){
+        Job job =  jobRepository.findById(id).orElse(null);
+        if(job != null){
+            job.setStatus(status);
+            jobRepository.save(job);
+            return jobRepository.findAll();
+        }else {
+            return null;
+        }
+    }
 }

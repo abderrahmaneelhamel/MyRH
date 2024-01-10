@@ -47,6 +47,11 @@ public class JobController {
         List<Application> application = jobService.updateApplication(applicationDto.getId(),applicationDto.getStatus());
         return ResponseEntity.ok(application);
     }
+    @PostMapping("/updateJob")
+    public ResponseEntity<List<Job>> updateJob(@RequestBody JobDto jobDto){
+        List<Job> job = jobService.updateJob(jobDto.getId(),jobDto.getStatus());
+        return ResponseEntity.ok(job);
+    }
     @PostMapping
     public ResponseEntity addJob(@RequestBody JobDto job){
         try {

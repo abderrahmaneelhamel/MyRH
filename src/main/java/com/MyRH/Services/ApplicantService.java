@@ -4,6 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.MyRH.Models.DTOs.ApplicantDto;
 import com.MyRH.Models.DTOs.ApplicationDto;
 import com.MyRH.Models.Entities.*;
+import com.MyRH.Models.Enums.State;
 import com.MyRH.Models.Mappers.ApplicantMapper;
 import com.MyRH.Models.Mappers.ApplicationMapper;
 import com.MyRH.Repositories.ApplicantRepository;
@@ -52,10 +53,17 @@ public class ApplicantService {
         if (applicant != null) {
             BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), applicant.getPassword());
             if (result.verified) {
-                return applicant;
+                applicant.setState(State.ONLINE);
+                return applicantRepository.save(applicant);
             }
         }
         return null;
+    }
+    public void logout(Long id) {
+        Applicant applicant = applicantRepository.findById(id).orElse(null);
+        assert applicant != null;
+        applicant.setState(State.OFFLINE);
+        applicantRepository.save(applicant);
     }
 
     public List<Applicant> getAllApplicants(){

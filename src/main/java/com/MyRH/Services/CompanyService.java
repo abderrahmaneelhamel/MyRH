@@ -3,9 +3,11 @@ package com.MyRH.Services;
 import com.MyRH.Exceptions.PaymentFailedException;
 import com.MyRH.Exceptions.PaymentProcessingException;
 import com.MyRH.Models.DTOs.CompanyDto;
+import com.MyRH.Models.Entities.Admin;
 import com.MyRH.Models.Entities.Company;
 import com.MyRH.Models.Entities.Files;
 import com.MyRH.Models.Entities.Plan;
+import com.MyRH.Models.Enums.State;
 import com.MyRH.Models.Mappers.CompanyMapper;
 import com.MyRH.Repositories.CompanyRepository;
 import com.MyRH.Repositories.FileRepository;
@@ -55,10 +57,17 @@ public class CompanyService {
         if (company != null) {
             BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), company.getPassword());
             if (result.verified) {
-                return company;
+                company.setState(State.ONLINE);
+                return companyRepository.save(company);
             }
         }
         return null;
+    }
+    public void logout(Long id) {
+        Company company = companyRepository.findById(id).orElse(null);
+        assert company != null;
+        company.setState(State.OFFLINE);
+        companyRepository.save(company);
     }
 
     public List<Company> getAllCompanies(){

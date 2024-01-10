@@ -58,6 +58,11 @@ public class CompanyController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
     }
+    @GetMapping("logout/{id}")
+    public ResponseEntity logout(@PathVariable("id") Long id) {
+        companyService.logout(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Logout successful");
+    }
     @PostMapping("/update-plan")
     public ResponseEntity updatePlan(@RequestBody Map<String, String> credentials) {
         try {

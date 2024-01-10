@@ -1,4 +1,5 @@
 package com.MyRH.Models.Entities;
+import com.MyRH.Models.Enums.State;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,4 +21,7 @@ public class Admin {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "state")
+    private State state;
 }

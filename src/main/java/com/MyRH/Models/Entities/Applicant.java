@@ -1,4 +1,5 @@
 package com.MyRH.Models.Entities;
+import com.MyRH.Models.Enums.State;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,7 +40,10 @@ public class Applicant {
     @JoinColumn(name = "cv_id", referencedColumnName = "id")
     private Files cv;
 
-    public Applicant(Long id, String firstName, String lastName, String email, String password, String level, String profile, String city) {
+    @Column(name = "state")
+    private State state;
+
+    public Applicant(Long id, String firstName, String lastName, String email, String password, String level, String profile, String city, State state){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,5 +52,6 @@ public class Applicant {
         this.level = level;
         this.profile = profile;
         this.city = city;
+        this.state = state;
     }
 }
