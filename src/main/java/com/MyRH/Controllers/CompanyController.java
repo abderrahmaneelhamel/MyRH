@@ -60,13 +60,22 @@ public class CompanyController {
     }
     @PostMapping("/update-plan")
     public ResponseEntity updatePlan(@RequestBody Map<String, String> credentials) {
-        Long companyId = Long.valueOf(credentials.get("companyId"));
-        Long planId = Long.valueOf(credentials.get("planId"));
-        Company updatedCompany = companyService.updatePlan(companyId,planId);
-        if (updatedCompany != null) {
-            return ResponseEntity.ok(updatedCompany);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        try {
+            Long companyId = Long.valueOf(credentials.get("companyId"));
+            Long planId = Long.valueOf(credentials.get("planId"));
+            String cardToken = credentials.get("cardToken");
+
+            Company updatedCompany = companyService.updatePlan(companyId, planId, cardToken);
+
+            if (updatedCompany != null) {
+                return ResponseEntity.ok(updatedCompany);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Company or plan not found");
+            }
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input format");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating plan");
         }
     }
 }
