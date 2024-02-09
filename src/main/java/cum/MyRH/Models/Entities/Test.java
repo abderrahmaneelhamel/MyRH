@@ -16,7 +16,7 @@ public class Test {
 
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "skills")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "test")
     private List<Question> questions;
 
     @ManyToMany

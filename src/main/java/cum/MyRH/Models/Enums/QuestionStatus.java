@@ -1,4 +1,4 @@
-package cum.MyRH.Models.Entities;
+package cum.MyRH.Models.Enums;
 
 public enum QuestionStatus {
 

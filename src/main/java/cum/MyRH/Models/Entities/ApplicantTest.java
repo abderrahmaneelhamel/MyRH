@@ -1,11 +1,8 @@
 package cum.MyRH.Models.Entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+import lombok.Data;
+@Data
 @Entity
 @Table(name = "applicant_test")
 public class ApplicantTest {
