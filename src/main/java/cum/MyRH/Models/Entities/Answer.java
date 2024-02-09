@@ -1,6 +1,6 @@
 package cum.MyRH.Models.Entities;
 
-import cum.MyRH.Models.Enums.QuestionStatus;
+import cum.MyRH.Models.Enums.AnswerStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,6 +21,6 @@ public class Answer {
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
-    private QuestionStatus status;
+    private AnswerStatus status;
 
 }

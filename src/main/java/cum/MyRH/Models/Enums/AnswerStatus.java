@@ -1,8 +1,8 @@
 package cum.MyRH.Models.Enums;
 
-public enum QuestionStatus {
+public enum AnswerStatus {
 
-    WRIGHT,
+    RIGHT,
 
     WRONG,
 }
