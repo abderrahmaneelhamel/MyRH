@@ -11,4 +11,6 @@ public interface ApplicantRepository extends JpaRepository<Applicant, Long> {
     @Query("SELECT new Applicant(a.id, a.firstName,a.lastName, a.email, a.password, a.level, a.profile, a.city, a.state) FROM Applicant a WHERE a.email = :email")
     Optional<Applicant> findApplicantWithoutCv(@Param("email") String email);
 
+    @Query("SELECT a.cv.id FROM Applicant a WHERE a.id = :id")
+    Long findApplicantCvId(@Param("id") Long id);
 }

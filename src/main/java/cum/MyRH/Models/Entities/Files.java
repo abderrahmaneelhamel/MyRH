@@ -28,4 +28,8 @@ public class Files {
     @Nullable
     @Lob
     private byte[] Data;
+
+    public Files(Long id) {
+        this.id = id;
+    }
 }

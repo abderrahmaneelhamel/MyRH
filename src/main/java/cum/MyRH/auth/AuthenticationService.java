@@ -94,12 +94,20 @@ public class AuthenticationService {
         break;
       case COMPANY:
         Company company = companyRepository.findCompanyWithoutImage(user.getEmail()).orElse(null);
+        Long imageId = companyRepository.findCompanyImageId(company.getId());
+        Files image = new Files(imageId);
+        company.setImage(image);
         company.setState(State.ONLINE);
+        companyRepository.save(company);
         jwtToken = jwtService.generateToken(user, user,company);
         break;
       case APPLICANT:
         Applicant applicant = applicantRepository.findApplicantWithoutCv(user.getEmail()).orElse(null);
+        Long cvId = applicantRepository.findApplicantCvId(applicant.getId());
+        Files cv = new Files(cvId);
+        applicant.setCv(cv);
         applicant.setState(State.ONLINE);
+        applicantRepository.save(applicant);
         jwtToken = jwtService.generateToken(user, user,applicant);
         break;
     }

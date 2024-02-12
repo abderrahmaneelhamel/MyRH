@@ -11,6 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "applicant")
 public class Applicant {
+    public Applicant(Long id, Files cv) {
+        this.id = id;
+        this.cv = cv;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

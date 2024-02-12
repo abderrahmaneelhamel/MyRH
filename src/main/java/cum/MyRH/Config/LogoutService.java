@@ -3,6 +3,7 @@ package cum.MyRH.Config;
 import cum.MyRH.Models.Entities.Admin;
 import cum.MyRH.Models.Entities.Applicant;
 import cum.MyRH.Models.Entities.Company;
+import cum.MyRH.Models.Entities.Files;
 import cum.MyRH.Models.Enums.State;
 import cum.MyRH.Models.token.TokenRepository;
 import cum.MyRH.Models.user.UserRepository;
@@ -71,14 +72,19 @@ public class LogoutService implements LogoutHandler {
             break;
           case COMPANY:
             Company company = companyRepository.findCompanyWithoutImage(userEmail).orElse(null);
+            Long imageId = companyRepository.findCompanyImageId(company.getId());
+            Files image = new Files(imageId);
+            company.setImage(image);
             company.setState(State.OFFLINE);
             companyRepository.save(company);
             break;
           case APPLICANT:
             Applicant applicant = applicantRepository.findApplicantWithoutCv(userEmail).orElse(null);
+            Long cvId = applicantRepository.findApplicantCvId(applicant.getId());
+            Files cv = new Files(cvId);
+            applicant.setCv(cv);
             applicant.setState(State.OFFLINE);
             applicantRepository.save(applicant);
-            System.out.println(applicant);
             break;
         }
       }

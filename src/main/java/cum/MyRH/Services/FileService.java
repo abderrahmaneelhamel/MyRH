@@ -32,8 +32,8 @@ public class FileService {
         return null;
     }
 
-    public byte[] getFiles(String fileName) {
-        return fileRepository.findByName(fileName).getData();
+    public Files getFileById(Long fileId) {
+        return fileRepository.findById(fileId).orElse(null);
     }
 
     public Files storeDataIntoFileSystem(MultipartFile file) throws IOException {

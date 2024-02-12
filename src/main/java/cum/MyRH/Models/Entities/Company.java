@@ -29,7 +29,7 @@ public class Company {
     @Column(name = "phone")
     private String phone;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Image_id", referencedColumnName = "id")
     private Files image;
 
@@ -41,7 +41,12 @@ public class Company {
     @Enumerated(EnumType.ORDINAL)
     private State state;
 
-    public Company(Long id, String name, String email, String password, String address, String phone,Plan plan,State state) {
+    public Company(Long id, Files image) {
+        this.id = id;
+        this.image = image;
+    }
+
+    public Company(Long id, String name, String email, String password, String address, String phone, Plan plan, State state) {
         this.id = id;
         this.name = name;
         this.email = email;

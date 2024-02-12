@@ -1,6 +1,7 @@
 package cum.MyRH.Repositories;
 
 import cum.MyRH.Models.Entities.Company;
+import cum.MyRH.Models.Entities.Files;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,4 +13,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Query("SELECT new Company(c.id, c.name, c.email, c.password, c.address, c.phone , c.plan, c.state) FROM Company c WHERE c.email = :email")
     Optional<Company> findCompanyWithoutImage(@Param("email") String email);
 
+
+    @Query("SELECT c.image.id FROM Company c WHERE c.id = :id")
+    Long findCompanyImageId(@Param("id") Long id);
 }
