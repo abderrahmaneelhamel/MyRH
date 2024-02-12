@@ -44,7 +44,14 @@ public class QuizService {
     }
 
     public Test getTestById(Long id) {
-        return testRepository.findById(id).orElse(null);
+        Test test = testRepository.getTestById(id);
+        List<Question> questions = questionRepository.findByTestId(test.getId());
+        for (Question question : questions) {
+            List<Answer> answers = answerRepository.findByQuestionId(question.getId());
+            question.setAnswers(answers);
+        }
+        test.setQuestions(questions);
+        return test;
     }
 
     @Transactional
