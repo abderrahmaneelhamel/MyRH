@@ -1,41 +1,73 @@
 package cum.MyRH.Services;
 
 import cum.MyRH.Models.DTOs.TestDto;
-import cum.MyRH.Models.Entities.Applicant;
-import cum.MyRH.Models.Entities.Badge;
-import cum.MyRH.Models.Entities.Test;
+import cum.MyRH.Models.Entities.*;
 import cum.MyRH.Models.Mappers.TestMapper;
-import cum.MyRH.Repositories.ApplicantRepository;
-import cum.MyRH.Repositories.BadgeRepository;
-import cum.MyRH.Repositories.TestRepository;
+import cum.MyRH.Repositories.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class QuizService {
 
     private final TestRepository testRepository;
+    private final QuestionRepository questionRepository;
+    private final AnswerRepository  answerRepository;
     private final ApplicantRepository applicantRepository;
     private final BadgeRepository  badgeRepository;
     private final TestMapper testMapper;
 
     @Autowired
-    public QuizService(TestRepository testRepository, ApplicantRepository applicantRepository, BadgeRepository badgeRepository, TestMapper testMapper){
+    public QuizService(TestRepository testRepository, QuestionRepository questionRepository, AnswerRepository answerRepository, ApplicantRepository applicantRepository, BadgeRepository badgeRepository, TestMapper testMapper){
         this.testRepository = testRepository;
+        this.questionRepository = questionRepository;
+        this.answerRepository = answerRepository;
         this.applicantRepository = applicantRepository;
         this.badgeRepository = badgeRepository;
         this.testMapper = testMapper;
+    }
+
+    public List<Test> getAllTests() {
+        List<Test> tests = testRepository.getAllTest();
+        for (Test test : tests){
+            List<Question> questions = questionRepository.findByTestId(test.getId());
+            for (Question question : questions) {
+                List<Answer> answers = answerRepository.findByQuestionId(question.getId());
+                question.setAnswers(answers);
+            }
+            test.setQuestions(questions);
+        }
+        return tests;
     }
 
     public Test getTestById(Long id) {
         return testRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public Test createTest(TestDto testDto) {
         Test test = testMapper.toEntity(testDto);
-        test.setQuestions(testDto.getQuestions());
-        return testRepository.save(test);
+        test = testRepository.save(test);
+
+        for (Question question : testDto.getQuestions()) {
+            question.setTest(test);
+
+            question = questionRepository.save(question);
+
+            for (Answer answer : question.getAnswers()) {
+                answer.setQuestion(question);
+                answer.setId(null);
+                answerRepository.save(answer);
+            }
+        }
+
+        return test;
     }
+
+
 
     public Badge createBadge(Badge badge) {
         return badgeRepository.save(badge);
