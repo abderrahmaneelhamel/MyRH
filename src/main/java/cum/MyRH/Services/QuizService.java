@@ -45,6 +45,7 @@ public class QuizService {
 
     public Test getTestById(Long id) {
         Test test = testRepository.getTestById(id);
+        System.out.println("hego :"+test);
         List<Question> questions = questionRepository.findByTestId(test.getId());
         for (Question question : questions) {
             List<Answer> answers = answerRepository.findByQuestionId(question.getId());

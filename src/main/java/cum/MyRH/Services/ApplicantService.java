@@ -85,7 +85,7 @@ public class ApplicantService {
         return applicationRepository.findByApplicantId(id).orElse(null);
     }
 
-
+    @Transactional
     public Applicant getApplicantById(Long id){
         return applicantRepository.findById(id).orElse(null);
     }

@@ -15,9 +15,10 @@ import java.util.List;
 @Entity
 @Table(name = "test")
 public class Test {
-    public Test(Long id, String name) {
+    public Test(Long id, String name,Badge badge) {
         this.id = id;
         this.name = name;
+        this.badge = badge;
     }
 
     @Id
@@ -30,6 +31,7 @@ public class Test {
     @OneToMany(mappedBy = "test",fetch = FetchType.LAZY)
     private List<Question> questions;
 
-    @ManyToMany
-    private List<Applicant> applicants;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "badge_id")
+    private Badge badge;
 }

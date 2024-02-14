@@ -49,11 +49,8 @@ public class Applicant {
     @Enumerated(EnumType.ORDINAL)
     private State state;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Badge> badges;
-
-    @OneToMany(mappedBy = "applicant")
-    private List<ApplicantTest> applicantTests;
 
     public Applicant(Long id, String firstName, String lastName, String email, String password, String level, String profile, String city, State state) {
         this.id = id;
